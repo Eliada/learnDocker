@@ -1,0 +1,23 @@
+version: "3.5"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: rubydocker
+    environment:
+      DB_HOST: db
+    ports:
+      - "3000:4567"
+    volumes:
+      - ".:/app"
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=demo
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./create_db.sql:/docker-entrypoint-initdb.d/c.sql"

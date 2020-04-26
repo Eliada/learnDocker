@@ -1,0 +1,29 @@
+FROM ruby:2.6.3-alpine
+
+WORKDIR /app
+
+RUN apk --update add --no-cache \
+    make\
+    gcc\
+    g++\
+    curl\
+    mariadb-dev\
+    libgcrypt-dev\
+    bash\
+    postgresql-dev\
+    libxml2-dev\
+    libxslt-dev\
+    tzdata\
+    build-base
+
+RUN gem install bundler
+
+COPY Gemfile* ./
+
+RUN bundle
+
+COPY app.rb Rakefile ./
+
+EXPOSE 4567
+
+CMD rake
