@@ -7,8 +7,6 @@ services:
       dockerfile: rubydocker
     environment:
       DB_HOST: db
-    ports:
-      - "3000:4567"
     volumes:
       - ".:/app"
   db:
@@ -21,3 +19,10 @@ services:
       - "5432:5432"
     volumes:
       - "./create_db.sql:/docker-entrypoint-initdb.d/c.sql"
+
+  lb:
+    image: jfahrer/lb:v3
+    environment:
+      PROXY_UPSTREAM: app:4567
+    ports:
+      - 80:80
