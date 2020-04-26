@@ -1,0 +1,7 @@
+FROM eliada/nginx2
+
+RUN  sed -i "s/exec nginx -g 'daemon off;'/exec \"\$@\"/g" start.sh
+
+ENTRYPOINT ["/start.sh"]
+
+CMD ["nginx", "-g", "daemon off;"]

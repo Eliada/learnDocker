@@ -15,13 +15,15 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pass
       - POSTGRES_DB=demo
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
     volumes:
       - "./create_db.sql:/docker-entrypoint-initdb.d/c.sql"
 
   lb:
-    image: jfahrer/lb:v3
+    build:
+      context: .
+      dockerfile: nginxDocker
     environment:
       PROXY_UPSTREAM: app:4567
     ports:
